@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body onload="getLocation()">
+    <div class="flex flex-col justify-center items-center w-full h-full w-[22rem]">
+        <div class="bg-[#161b22] rounded-lg">
+            <h1 class="text-center text-3xl text-white font-semibold border-b-2 border-gray-600 p-4">
+                Sign Up
+            </h1>
+            <h1 class="text-xl text-white font-semibold mt-2 ml-4 pt-4 mb-2">
+                Username
+            </h1>
+            <input name="username" id="username"
+                   class="w-[20.5rem] h-10 bg-gray-700 text-gray-300 rounded-lg mt-2 ml-4 mr-4 p-2 text-md border border-gray-500"/>
+            <br>
+            <h1 class="text-xl text-white font-semibold mt-2 ml-4 pt-4 mb-2">
+                Password
+            </h1>
+            <input name="password" id="password"
+                   class="w-[20.5rem] h-10 bg-gray-700 text-gray-300 rounded-lg mt-2 ml-4 mr-4 p-2 text-md border border-gray-500"/>
+            <br>
+            <h1 class="text-xl text-white font-semibold mt-2 ml-4 pt-4">
+                Station To Use
+            </h1>
+            <h1 class="text-xs text-gray-300/50 text-clip overflow-hidden ml-4 mb-2"> Enable your location so we can retrieve your station.</h1>
+            <input name="station" id="stationCode"
+                   class="w-[20.5rem] h-10 bg-gray-700 text-gray-300 rounded-lg mt-2 ml-4 mr-4 p-2 text-md border border-gray-500"/>
+            <br>
+
+            <button onclick="submitSignup()"
+                class="inline-flex ml-4 mt-8 py-2 px-3 text-sm font-medium text-center text-[{{ base['secondary_color'] }}] bg-[{{ base['color'] }}]
+                rounded-lg hover:bg-blue-400 focus:ring-4 focus:outline-none focus:bg-blue-400">
+                Sign Up
+                <svg aria-hidden="true" class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                        clip-rule="evenodd"></path>
+                </svg>
+            </button>
+            <h1 class="text-gray-300 ml-4 mt-2 text-sm font-medium text-gray-500">
+                Already have an account? <a href="/login" class="text-blue-500 hover:text-blue-400">Log in.</a>
+            </h1>
+            <div class="alert alert-danger p-6 text-red-400 text-sm" id="errorMessage">
+
+            </div>
+        </div>
+    </div>
+</body>
+<style>
+    input {
+        -webkit-user-select: text;
+        user-select: text;
+    }
+</style>
+
+<script>
+const station = document.getElementById("stationCode");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    document.getElementById("errorMessage").innerText = "Please enter your station code manually.";
+  }
+}
+
+function showPosition(position) {
+  fetch("https://api.weather.gov/points/" + position.coords.latitude + "," + position.coords.longitude)
+    .then((r) => r.json())
+    .then((data) => data["properties"]["observationStations"])
+    .then((url) => fetch(url))
+    .then((r2) => r2.json())
+    .then((data2) => data2["features"][0]["properties"]["stationIdentifier"])
+    .then(
+      function (stationCode) {
+        station.value = stationCode;
+      }
+    );
+}
+
+function submitSignup() {
+    var server_data = {
+        "action": "init",
+        "username": document.getElementById("username").value.toLowerCase(),
+        "password": document.getElementById("password").value,
+        "station_code": document.getElementById("stationCode").value.toUpperCase()
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/process_signup",
+        data: JSON.stringify(server_data),
+        contentType: "application/json",
+        dataType: 'json',
+        success: function (result) {
+            if (result["action"] == "Success") {
+                document.getElementById("errorMessage").innerText = ""
+                window.location.replace("/");
+            }
+            else {
+                document.getElementById("errorMessage").innerText = result["action"]
+            }
+        }
+    });
+}
+</script>
+{% endblock content %}

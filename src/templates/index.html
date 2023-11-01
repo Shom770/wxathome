@@ -1,113 +1,134 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1 class="text-white text-2xl md:text-3xl md:text-4xl">
-    Your Weather, <span class="font-bold text-[{{ base['color'] }}]">{{ base['name'] }}</span>
-  </h1>
-  <div class="flex flex-col md:flex-row justify-items-start w-full h-1/3 md:h-1/4 mt-5 gap-5 md:gap-10g">
-    <div class="flex flex-row justify-items items-center w-[80vw] md:w-1/5 h-3/4 bg-slate-600/50 rounded-2xl">
-      <div class="flex w-1/3 h-full justify-items items-center">
-        <svg fill="{{ base['red_color'] if metric_deltas['temperature'] > 0 else base['color'] }}" class="w-full h-2/3" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-	 viewBox="0 0 441.122 441.122" xml:space="preserve">
-          <g>
-              <g>
+  <div class="flex flex-col justify-center items-start w-[90vw] h-full mx-[10vw]">
+      {% if base["logged_in"] %}
+          <h1 class="text-white text-2xl md:text-3xl md:text-4xl">
+            Your Weather, <span class="font-bold text-[{{ base['color'] }}]">{{ base['name'] }}</span>
+          </h1>
+          <div class="flex flex-col md:flex-row justify-items-start w-full h-1/3 md:h-1/4 mt-5 gap-5 md:gap-10">
+            <div class="flex flex-row justify-items items-center w-[80vw] md:w-1/4 h-3/4 bg-slate-600/50 rounded-2xl">
+              <div class="flex w-1/3 h-full justify-items items-center">
+                <svg fill="{{ base['red_color'] if metric_deltas['temperature'] > 0 else base['color'] }}" class="w-full h-2/3" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+             viewBox="0 0 441.122 441.122" xml:space="preserve">
                   <g>
-                      <path d="M273.795,268.526V53.235C273.795,23.881,249.913,0,220.559,0s-53.235,23.881-53.235,53.235V268.53
-                          c-26.609,18.183-42.311,48.963-41.218,81.341c1.636,48.542,40.887,88.564,89.358,91.115c1.726,0.091,3.446,0.136,5.159,0.136
-                          c24.326,0,47.231-9.105,64.975-25.94c19.005-18.031,29.471-42.383,29.471-68.57C315.068,315.067,299.72,286.185,273.795,268.526z
-                           M275.274,404.299c-15.977,15.16-36.937,22.875-59.021,21.707c-40.766-2.145-73.778-35.81-75.155-76.641
-                          c-0.959-28.436,13.478-55.409,37.676-70.394c2.208-1.367,3.551-3.779,3.551-6.376V53.235C182.324,32.152,199.477,15,220.56,15
-                          s38.235,17.152,38.235,38.235v219.359c0,2.597,1.344,5.009,3.552,6.376c23.62,14.627,37.722,39.913,37.722,67.64
-                          C300.068,368.642,291.263,389.129,275.274,404.299z"/>
-                      <path d="M286.816,325.48c-1.253-3.948-5.469-6.134-9.417-4.881c-3.948,1.252-6.134,5.468-4.882,9.417
-                          c1.693,5.338,2.552,10.921,2.552,16.595c0,14.561-5.67,28.25-15.965,38.545c-10.992,10.994-25.842,16.717-41.539,15.884
-                          c-27.925-1.469-50.539-24.538-51.482-52.518c-0.658-19.509,9.248-38.015,25.851-48.296l11.838-7.331
-                          c2.208-1.367,3.552-3.779,3.552-6.376V65h26.471v221.519c0,2.597,1.344,5.009,3.551,6.376l11.838,7.331
-                          c3.523,2.181,8.145,1.094,10.325-2.428c2.182-3.521,1.095-8.144-2.427-10.325l-8.287-5.132V57.5c0-4.142-3.357-7.5-7.5-7.5
-                          h-41.471c-4.142,0-7.5,3.358-7.5,7.5v224.842l-8.287,5.131c-21.16,13.103-33.784,36.689-32.945,61.554
-                          c1.203,35.691,30.056,65.118,65.687,66.992c1.26,0.066,2.533,0.1,3.787,0.1c18.565,0,36.02-7.229,49.146-20.357
-                          c13.128-13.129,20.357-30.585,20.357-49.152C290.068,339.396,288.974,332.287,286.816,325.48z"/>
-                      <path d="M269.053,315.409c1.987,0,3.88-0.813,5.3-2.19c2.757-2.841,2.924-7.38,0.251-10.342
-                          c-2.308-2.558-6.214-3.187-9.219-1.506c-3.023,1.692-4.508,5.362-3.517,8.682C262.808,313.201,265.762,315.409,269.053,315.409z"
-                          />
-                  </g>
-              </g>
-            </g>
-          </svg>
-      </div>
-      <div class="flex justify-items items-center w-2/3 h-full">
-        <div class="flex flex-col justify-items items-start p-2">
-          <h1 class="text-[{{ base['red_color'] if metric_deltas['temperature'] > 0 else base['color']  }}] font-black text-5xl md:text-6xl">
-            67° F
-          </h1>
-          <h1 class="text-gray-400/75 text-light text-sm md:text-md">
-            Last updated at 9:02 pm.
-          </h1>
-        </div>
-      </div>
-    </div>
+                      <g>
+                          <g>
+                              <path d="M273.795,268.526V53.235C273.795,23.881,249.913,0,220.559,0s-53.235,23.881-53.235,53.235V268.53
+                                  c-26.609,18.183-42.311,48.963-41.218,81.341c1.636,48.542,40.887,88.564,89.358,91.115c1.726,0.091,3.446,0.136,5.159,0.136
+                                  c24.326,0,47.231-9.105,64.975-25.94c19.005-18.031,29.471-42.383,29.471-68.57C315.068,315.067,299.72,286.185,273.795,268.526z
+                                   M275.274,404.299c-15.977,15.16-36.937,22.875-59.021,21.707c-40.766-2.145-73.778-35.81-75.155-76.641
+                                  c-0.959-28.436,13.478-55.409,37.676-70.394c2.208-1.367,3.551-3.779,3.551-6.376V53.235C182.324,32.152,199.477,15,220.56,15
+                                  s38.235,17.152,38.235,38.235v219.359c0,2.597,1.344,5.009,3.552,6.376c23.62,14.627,37.722,39.913,37.722,67.64
+                                  C300.068,368.642,291.263,389.129,275.274,404.299z"/>
+                              <path d="M286.816,325.48c-1.253-3.948-5.469-6.134-9.417-4.881c-3.948,1.252-6.134,5.468-4.882,9.417
+                                  c1.693,5.338,2.552,10.921,2.552,16.595c0,14.561-5.67,28.25-15.965,38.545c-10.992,10.994-25.842,16.717-41.539,15.884
+                                  c-27.925-1.469-50.539-24.538-51.482-52.518c-0.658-19.509,9.248-38.015,25.851-48.296l11.838-7.331
+                                  c2.208-1.367,3.552-3.779,3.552-6.376V65h26.471v221.519c0,2.597,1.344,5.009,3.551,6.376l11.838,7.331
+                                  c3.523,2.181,8.145,1.094,10.325-2.428c2.182-3.521,1.095-8.144-2.427-10.325l-8.287-5.132V57.5c0-4.142-3.357-7.5-7.5-7.5
+                                  h-41.471c-4.142,0-7.5,3.358-7.5,7.5v224.842l-8.287,5.131c-21.16,13.103-33.784,36.689-32.945,61.554
+                                  c1.203,35.691,30.056,65.118,65.687,66.992c1.26,0.066,2.533,0.1,3.787,0.1c18.565,0,36.02-7.229,49.146-20.357
+                                  c13.128-13.129,20.357-30.585,20.357-49.152C290.068,339.396,288.974,332.287,286.816,325.48z"/>
+                              <path d="M269.053,315.409c1.987,0,3.88-0.813,5.3-2.19c2.757-2.841,2.924-7.38,0.251-10.342
+                                  c-2.308-2.558-6.214-3.187-9.219-1.506c-3.023,1.692-4.508,5.362-3.517,8.682C262.808,313.201,265.762,315.409,269.053,315.409z"
+                                  />
+                          </g>
+                      </g>
+                    </g>
+                  </svg>
+              </div>
+              <div class="flex justify-items items-center w-2/3 h-full">
+                <div class="flex flex-col justify-items items-start p-2">
+                  <h1 class="text-[{{ base['red_color'] if metric_deltas['temperature'] > 0 else base['color']  }}] font-black text-5xl md:text-6xl">
+                    67° F
+                  </h1>
+                  <h1 class="text-[{{ base['red_color'] if metric_deltas['temperature'] > 0 else base['color']  }}] text-light text-sm md:text-md">
+                    Weather from your station
+                  </h1>
+                  <h1 class="text-gray-400/75 text-light text-sm md:text-md">
+                    Last updated at 9:02 pm.
+                  </h1>
+                </div>
+              </div>
+            </div>
 
-    <div class="flex flex-row justify-items items-center w-[80vw] md:w-1/5 h-3/4 bg-slate-600/50 rounded-2xl">
-      <div class="flex w-1/3 h-full justify-items items-center">
-          <svg fill="{{ base['red_color'] if metric_deltas['dewpoint'] > 0 else base['color'] }}" class="w-full h-2/3" viewBox="0 0 32 32" id="icon" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <style>
-                  .cls-1 {
-                    fill: none;
-                  }
-                </style>
-              </defs>
-              <title>dew-point--filled</title>
-              <path d="M24,10a4,4,0,1,1,4-4A4.0045,4.0045,0,0,1,24,10Zm0-6a2,2,0,1,0,2,2A2.0021,2.0021,0,0,0,24,4Z"/>
-              <path d="M14.5,30A5.4962,5.4962,0,0,1,9,24.52c0-3.4426,4.3442-21.0141,4.5293-21.76a1,1,0,0,1,1.9414,0C15.6558,3.5059,20,21.0774,20,24.52A5.4962,5.4962,0,0,1,14.5,30Z"/>
-              <rect id="_Transparent_Rectangle_" data-name="&lt;Transparent Rectangle&gt;" class="cls-1" width="32" height="32"/>
-            </svg>
-      </div>
-      <div class="flex justify-items items-center w-2/3 h-full">
-        <div class="flex flex-col justify-items items-start p-2">
-          <h1 class="text-[{{ base['red_color'] if metric_deltas['dewpoint'] > 0 else base['color']  }}] font-black text-5xl md:text-6xl">
-            59° F
-          </h1>
-          <h1 class="text-gray-400/75 text-light text-sm md:text-md">
-            Last updated at 9:02 pm.
-          </h1>
-        </div>
-      </div>
-    </div>
+            <div class="flex flex-row justify-items items-center w-[80vw] md:w-1/4 h-3/4 bg-slate-600/50 rounded-2xl">
+              <div class="flex w-1/3 h-full justify-items items-center">
+                  <svg fill="{{ base['red_color'] if metric_deltas['dewpoint'] > 0 else base['color'] }}" class="w-full h-2/3" viewBox="0 0 32 32" id="icon" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <style>
+                          .cls-1 {
+                            fill: none;
+                          }
+                        </style>
+                      </defs>
+                      <title>dew-point--filled</title>
+                      <path d="M24,10a4,4,0,1,1,4-4A4.0045,4.0045,0,0,1,24,10Zm0-6a2,2,0,1,0,2,2A2.0021,2.0021,0,0,0,24,4Z"/>
+                      <path d="M14.5,30A5.4962,5.4962,0,0,1,9,24.52c0-3.4426,4.3442-21.0141,4.5293-21.76a1,1,0,0,1,1.9414,0C15.6558,3.5059,20,21.0774,20,24.52A5.4962,5.4962,0,0,1,14.5,30Z"/>
+                      <rect id="_Transparent_Rectangle_" data-name="&lt;Transparent Rectangle&gt;" class="cls-1" width="32" height="32"/>
+                    </svg>
+              </div>
+              <div class="flex justify-items items-center w-2/3 h-full">
+                <div class="flex flex-col justify-items items-start p-2">
+                  <h1 class="text-[{{ base['red_color'] if metric_deltas['dewpoint'] > 0 else base['color']  }}] font-black text-5xl md:text-6xl">
+                    59° F
+                  </h1>
+                  <h1 class="text-[{{ base['red_color'] if metric_deltas['dewpoint'] > 0 else base['color']  }}] text-light text-sm md:text-md">
+                    Weather from KIAD (2 mi)
+                  </h1>
+                  <h1 class="text-gray-400/75 text-light text-sm md:text-md">
+                    Last updated at 9:02 pm.
+                  </h1>
+                </div>
+              </div>
+            </div>
 
-    <div class="flex flex-row justify-items items-center w-[80vw] md:w-1/5 h-3/4 bg-slate-600/50 rounded-2xl">
-      <div class="flex w-1/3 h-full justify-items items-center">
-         <svg fill="{{ base['red_color'] if metric_deltas['relative_humidity'] > 0 else base['color'] }}" class="w-full h-2/3" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-	 viewBox="0 0 328.611 328.611" xml:space="preserve">
-        <g>
-            <path d="M209.306,50.798c-2.452-3.337-7.147-4.055-10.485-1.602c-3.338,2.453-4.055,7.147-1.603,10.485
-                c54.576,74.266,66.032,123.541,66.032,151.8c0,27.691-8.272,52.794-23.293,70.685c-17.519,20.866-42.972,31.446-75.651,31.446
-                c-73.031,0-98.944-55.018-98.944-102.131c0-52.227,28.103-103.234,51.679-136.829c25.858-36.847,52.11-61.415,52.37-61.657
-                c3.035-2.819,3.209-7.565,0.39-10.6c-2.819-3.034-7.565-3.209-10.599-0.39c-1.11,1.031-27.497,25.698-54.254,63.765
-                c-24.901,35.428-54.586,89.465-54.586,145.71c0,31.062,9.673,59.599,27.236,80.353c20.361,24.061,50.345,36.779,86.708,36.779
-                c36.794,0,66.926-12.726,87.139-36.801c17.286-20.588,26.806-49.117,26.806-80.33C278.25,156.216,240.758,93.597,209.306,50.798z"
-                />
-            <path d="M198.43,148.146l-95.162,95.162c-2.929,2.929-2.929,7.678,0,10.606c1.465,1.464,3.385,2.197,5.304,2.197
-                s3.839-0.732,5.304-2.197l95.162-95.162c2.929-2.929,2.929-7.678,0-10.606C206.107,145.217,201.359,145.217,198.43,148.146z"/>
-            <path d="M191.965,207.899c-13.292,0-24.106,10.814-24.106,24.106s10.814,24.106,24.106,24.106s24.106-10.814,24.106-24.106
-                S205.257,207.899,191.965,207.899z M191.965,241.111c-5.021,0-9.106-4.085-9.106-9.106s4.085-9.106,9.106-9.106
-                s9.106,4.085,9.106,9.106S196.986,241.111,191.965,241.111z"/>
-            <path d="M125.178,194.162c13.292,0,24.106-10.814,24.106-24.106s-10.814-24.106-24.106-24.106s-24.106,10.814-24.106,24.106
-                S111.886,194.162,125.178,194.162z M125.178,160.949c5.021,0,9.106,4.085,9.106,9.106s-4.085,9.106-9.106,9.106
-                c-5.021,0-9.106-4.085-9.106-9.106S120.156,160.949,125.178,160.949z"/>
-        </g>
-        </svg>
-      </div>
-      <div class="flex justify-items items-center w-2/3 h-full">
-        <div class="flex flex-col justify-items items-start p-2">
-          <h1 class="text-[{{ base['red_color'] if metric_deltas['relative_humidity'] > 0 else base['color']  }}] font-black text-5xl md:text-6xl">
-            81%
+            <div class="flex flex-row justify-items items-center w-[80vw] md:w-1/4 h-3/4 bg-slate-600/50 rounded-2xl">
+              <div class="flex w-1/3 h-full justify-items items-center">
+                 <svg fill="{{ base['red_color'] if metric_deltas['relative_humidity'] > 0 else base['color'] }}" class="w-full h-2/3" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+             viewBox="0 0 328.611 328.611" xml:space="preserve">
+                <g>
+                    <path d="M209.306,50.798c-2.452-3.337-7.147-4.055-10.485-1.602c-3.338,2.453-4.055,7.147-1.603,10.485
+                        c54.576,74.266,66.032,123.541,66.032,151.8c0,27.691-8.272,52.794-23.293,70.685c-17.519,20.866-42.972,31.446-75.651,31.446
+                        c-73.031,0-98.944-55.018-98.944-102.131c0-52.227,28.103-103.234,51.679-136.829c25.858-36.847,52.11-61.415,52.37-61.657
+                        c3.035-2.819,3.209-7.565,0.39-10.6c-2.819-3.034-7.565-3.209-10.599-0.39c-1.11,1.031-27.497,25.698-54.254,63.765
+                        c-24.901,35.428-54.586,89.465-54.586,145.71c0,31.062,9.673,59.599,27.236,80.353c20.361,24.061,50.345,36.779,86.708,36.779
+                        c36.794,0,66.926-12.726,87.139-36.801c17.286-20.588,26.806-49.117,26.806-80.33C278.25,156.216,240.758,93.597,209.306,50.798z"
+                        />
+                    <path d="M198.43,148.146l-95.162,95.162c-2.929,2.929-2.929,7.678,0,10.606c1.465,1.464,3.385,2.197,5.304,2.197
+                        s3.839-0.732,5.304-2.197l95.162-95.162c2.929-2.929,2.929-7.678,0-10.606C206.107,145.217,201.359,145.217,198.43,148.146z"/>
+                    <path d="M191.965,207.899c-13.292,0-24.106,10.814-24.106,24.106s10.814,24.106,24.106,24.106s24.106-10.814,24.106-24.106
+                        S205.257,207.899,191.965,207.899z M191.965,241.111c-5.021,0-9.106-4.085-9.106-9.106s4.085-9.106,9.106-9.106
+                        s9.106,4.085,9.106,9.106S196.986,241.111,191.965,241.111z"/>
+                    <path d="M125.178,194.162c13.292,0,24.106-10.814,24.106-24.106s-10.814-24.106-24.106-24.106s-24.106,10.814-24.106,24.106
+                        S111.886,194.162,125.178,194.162z M125.178,160.949c5.021,0,9.106,4.085,9.106,9.106s-4.085,9.106-9.106,9.106
+                        c-5.021,0-9.106-4.085-9.106-9.106S120.156,160.949,125.178,160.949z"/>
+                </g>
+                </svg>
+              </div>
+              <div class="flex justify-items items-center w-2/3 h-full">
+                <div class="flex flex-col justify-items items-start p-2">
+                  <h1 class="text-[{{ base['red_color'] if metric_deltas['relative_humidity'] > 0 else base['color']  }}] font-black text-5xl md:text-6xl">
+                    81%
+                  </h1>
+                  <h1 class="text-[{{ base['red_color'] if metric_deltas['relative_humidity'] > 0 else base['color']  }}] text-light text-sm md:text-md">
+                    Weather from KIAD (2 mi)
+                  </h1>
+                  <h1 class="text-gray-400/75 text-light text-sm md:text-md">
+                    Last updated at 9:02 pm.
+                  </h1>
+                </div>
+              </div>
+            </div>
+          </div>
+      {% else %}
+          <img src="{{ url_for('static', filename='sad_cloud.png') }}" width="250px" height="250px">
+          <h1 class="text-[{{ base['color'] }}] font-black mt-10 text-5xl md:text-6xl">
+              403.
           </h1>
-          <h1 class="text-gray-400/75 text-light text-sm md:text-md">
-            Last updated at 9:02 pm.
+          <h1 class="text-white text-2xl md:text-3xl">
+              You're not logged in yet.
           </h1>
-        </div>
-      </div>
-    </div>
+      {% endif %}
   </div>
 {% endblock %}
