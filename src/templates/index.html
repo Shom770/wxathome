@@ -6,7 +6,7 @@
           <h1 class="text-white text-2xl md:text-3xl md:text-4xl">
             Your Weather, <span class="font-bold text-[{{ base['color'] }}]">{{ base['name'] }}</span>
           </h1>
-          <div class="flex flex-col md:flex-row justify-items-start w-full h-1/3 md:h-1/4 mt-5 gap-5 md:gap-10">
+          <div class="flex flex-col md:flex-row justify-items-start w-full h-1/2 md:h-1/4 mt-5 gap-5 md:gap-10">
             <div class="flex flex-row justify-items items-center w-[80vw] md:w-1/4 h-3/4 bg-slate-600/50 rounded-2xl">
               <div class="flex w-1/3 h-full justify-items items-center">
                 <svg fill="{{ base['red_color'] if metric_deltas['temperature'] > 0 else base['color'] }}" class="w-full h-2/3" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -40,13 +40,13 @@
               <div class="flex justify-items items-center w-2/3 h-full">
                 <div class="flex flex-col justify-items items-start p-2">
                   <h1 class="text-[{{ base['red_color'] if metric_deltas['temperature'] > 0 else base['color']  }}] font-black text-5xl md:text-6xl">
-                    67° F
+                    {{ metrics['temperature'] }}° F
                   </h1>
                   <h1 class="text-[{{ base['red_color'] if metric_deltas['temperature'] > 0 else base['color']  }}] text-light text-sm md:text-md">
-                    Weather from your station
+                    Weather from {{ base['station_name'] }}
                   </h1>
                   <h1 class="text-gray-400/75 text-light text-sm md:text-md">
-                    Last updated at 9:02 pm.
+                    Last updated at {{ metrics['time_fmt'] }}.
                   </h1>
                 </div>
               </div>
@@ -71,13 +71,13 @@
               <div class="flex justify-items items-center w-2/3 h-full">
                 <div class="flex flex-col justify-items items-start p-2">
                   <h1 class="text-[{{ base['red_color'] if metric_deltas['dewpoint'] > 0 else base['color']  }}] font-black text-5xl md:text-6xl">
-                    59° F
+                    {{ metrics['dewpoint'] }}° F
                   </h1>
                   <h1 class="text-[{{ base['red_color'] if metric_deltas['dewpoint'] > 0 else base['color']  }}] text-light text-sm md:text-md">
-                    Weather from KIAD (2 mi)
+                    Weather from {{ base['station_name'] }}
                   </h1>
                   <h1 class="text-gray-400/75 text-light text-sm md:text-md">
-                    Last updated at 9:02 pm.
+                    Last updated at {{ metrics['time_fmt'] }}.
                   </h1>
                 </div>
               </div>
@@ -109,13 +109,13 @@
               <div class="flex justify-items items-center w-2/3 h-full">
                 <div class="flex flex-col justify-items items-start p-2">
                   <h1 class="text-[{{ base['red_color'] if metric_deltas['relative_humidity'] > 0 else base['color']  }}] font-black text-5xl md:text-6xl">
-                    81%
+                    {{ metrics['relative_humidity']|int }}%
                   </h1>
                   <h1 class="text-[{{ base['red_color'] if metric_deltas['relative_humidity'] > 0 else base['color']  }}] text-light text-sm md:text-md">
-                    Weather from KIAD (2 mi)
+                    Weather from {{ base['station_name'] }}
                   </h1>
                   <h1 class="text-gray-400/75 text-light text-sm md:text-md">
-                    Last updated at 9:02 pm.
+                    Last updated at {{ metrics['time_fmt'] }}.
                   </h1>
                 </div>
               </div>

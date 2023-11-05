@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from os import environ
 
 import requests
@@ -8,6 +9,8 @@ from flask_session import Session
 from passlib.hash import sha256_crypt
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+
+from utils import Weather
 
 # Load environment variables
 load_dotenv()
@@ -57,10 +60,27 @@ def _get_base_params() -> dict[str, str]:
 
 @app.route("/")
 def home():
+    # Instantiate wrapper for the weather.gov API.
+    base_params = _get_base_params()
+    weather_api = Weather(base_params['station_name'])
+
+    if base_params['station_name']:
+        metrics = weather_api.retrieve_observation()
+        observations_yesterday = weather_api.retrieve_observation(
+            (metrics["raw_time"] - timedelta(hours=24, minutes=1)).replace(microsecond=0)
+        )
+        metric_deltas = {
+            key: metrics[key] - observations_yesterday[key] for key in ("temperature", "dewpoint", "relative_humidity")
+        }
+    else:
+        metrics = {"time": "—:—", "temperature": "—", "dewpooint": "—", "relative_humidity": "—"}
+        metric_deltas = {"temperature": 0, "dewpoint": 0, "relative_humidity": 0}
+
     return render_template(
         "index.html",
         base=_get_base_params(),
-        metric_deltas={"temperature": 1, "dewpoint": -10, "relative_humidity": -40}
+        metrics=metrics,
+        metric_deltas=metric_deltas
     )
 
 
